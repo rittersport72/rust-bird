@@ -12,7 +12,7 @@ fn main() {
     let opengl = OpenGL::V3_2;
 
     // Create a Glutin window.
-    let mut window: Window = WindowSettings::new("bird", [300, 388])
+    let mut window: Window = WindowSettings::new("bird", [bird::WIDTH, bird::HEIGHT])
         .graphics_api(opengl)
         .exit_on_esc(true)
         .build()
