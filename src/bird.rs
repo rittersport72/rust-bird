@@ -1,6 +1,7 @@
 use opengl_graphics::{GlGraphics, OpenGL};
 use piston::input::{RenderArgs, UpdateArgs};
 use piston::{Button, Key};
+use rand::prelude::*;
 
 // Window dimensions
 pub const WIDTH: f64 = 300.0;
@@ -118,7 +119,12 @@ impl Application {
     }
 
     fn random_pipe_space_y() -> f64 {
-        // TODO: random
-        150.0
+        let mut rng = thread_rng();
+
+        let begin = (2.0 * BIRD_HEIGHT) as u32;
+        let end = (HEIGHT - PIPE_SPACE_HEIGHT - 2.0 * BIRD_HEIGHT) as u32;
+        let number: u32 = rng.gen_range(begin..end);
+
+        number as f64
     }
 }
