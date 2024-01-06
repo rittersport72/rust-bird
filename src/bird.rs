@@ -102,6 +102,14 @@ impl Application {
                 self.pipe2_x_posit = WIDTH;
                 self.pipe2_space_y = Application::random_pipe_space_y();
             }
+
+            let collided_pipe1 = self.check_collision_with_pipe(self.pipe1_x_posit, self.pipe1_space_y);
+            let collided_pipe2 = self.check_collision_with_pipe(self.pipe2_x_posit, self.pipe2_space_y);
+            //println!("collided {} {}", collided_pipe1, collided_pipe2);
+
+            if collided_pipe1 || collided_pipe2 {
+                self.game_paused = true;
+            }
         }
     }
 
@@ -126,5 +134,21 @@ impl Application {
         let number: u32 = rng.gen_range(begin..end);
 
         number as f64
+    }
+
+    fn check_collision_with_pipe(&self, pipe_x_posit: f64, pipe_space_y: f64) -> bool {
+        // Left edge of bird is to the left of the right edge of pipe
+        if BIRD_X_POSIT < (pipe_x_posit + PIPE_WIDTH) &&
+            // Right edge of bird is to the right of the left edge of pipe
+            (BIRD_X_POSIT + BIRD_WIDTH) > pipe_x_posit && (
+                // Top edge of bird is above the bottom edge of first pipe segment
+                self.bird_y_posit < pipe_space_y ||
+                // Bottom edge of bird is below the top edge of second pipe segment
+                (self.bird_y_posit + BIRD_HEIGHT) > (pipe_space_y + PIPE_SPACE_HEIGHT)
+            ) {
+            return true;
+        }
+
+        false
     }
 }
